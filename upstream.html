@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upstream Engine Contributions — Anavind Labs</title>
+  <meta name="description" content="Direct upstream contributions, bug reports, and PRs across vLLM and SGLang core serving engines.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <img src="assets/favicon.svg" alt="Anavind Labs Logo" class="brand-icon">
+        <div class="brand-text">
+          <span class="brand-title">
+            Anavind Labs
+            <span class="brand-badge">Solo Lab</span>
+          </span>
+          <span class="brand-subtitle">Independent Systems Practice</span>
+        </div>
+      </a>
+
+      <button class="mobile-toggle" aria-label="Toggle Navigation Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="research.html" class="nav-link">Research & Systems</a>
+        <a href="upstream.html" class="nav-link active">Upstream PRs</a>
+        <a href="benchmarks.html" class="nav-link">Benchmarks & Provenance</a>
+        <a href="about.html" class="nav-link">About & Practice</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://github.com/Aravind0403" target="_blank" rel="noopener noreferrer" class="btn-github">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.484 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          github.com/Aravind0403
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <main>
+    <section style="padding: 60px 0 40px; border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-eyebrow">Serving Engine Core Hardening</div>
+        <h1 style="margin-bottom: 16px;">Upstream Open-Source Contributions</h1>
+        <p class="lead" style="max-width: 880px;">
+          Research shouldn't exist in a vacuum. When testing systems on live hardware exposes memory leaks, thread locks, or architectural edge cases in open-source engines, I fix them upstream.
+        </p>
+
+        <div style="display:flex; gap:16px; margin-top:24px; flex-wrap:wrap;">
+          <div class="metric-pill" style="padding:6px 12px; font-size:0.85rem;">
+            Current Status: <strong>4 Open PRs &middot; 1 Co-Authored</strong>
+          </div>
+          <div class="metric-pill" style="padding:6px 12px; font-size:0.85rem;">
+            Engines: <strong>vLLM &middot; SGLang</strong>
+          </div>
+          <div class="metric-pill" style="padding:6px 12px; font-size:0.85rem;">
+            Discipline: <strong>Code Hygiene vs Hot-Path Distinctions Disclosed</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upstream PR Dossiers -->
+    <section style="padding: 60px 0;">
+      <div class="container" style="display: grid; gap: 32px;">
+
+        <!-- 1. vLLM #51574 -->
+        <article class="pr-row-card" style="padding: 30px;" id="vllm-51574">
+          <div class="pr-target-col">
+            <span class="pr-repo-tag" style="font-size: 1.1rem;">vLLM</span>
+            <span class="pr-id-link" style="font-size: 0.95rem;">PR #51574</span>
+            <span class="badge badge-upstream">Co-Authored</span>
+            <span class="badge badge-neutral">Status: Open</span>
+          </div>
+
+          <div class="pr-content-col">
+            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">
+              Preempted Requests Starvation & Re-Admission in PriorityRequestQueue
+            </h3>
+            <p class="pr-desc" style="font-size: 0.95rem;">
+              <strong>Origin & Root Cause:</strong> I filed the initial bug report (<a href="https://github.com/vllm-project/vllm/issues/41951" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue); text-decoration:underline;">vLLM issue #41951</a>), identifying that when vLLM's v1 engine experiences memory pressure and preempts in-flight requests, those preempted requests lose re-admission priority in the <code class="mono">PriorityRequestQueue</code>, causing indefinite starvation under continuous ingress traffic.
+            </p>
+            <p class="pr-desc" style="font-size: 0.95rem;">
+              <strong>Fix Evolution:</strong> I authored two successive patches: PR #41952 (stale) and PR #56843 (which introduced a bounded starvation cap). The changes and regression test suite were subsequently cherry-picked into the consolidated PR #51574, where I hold co-authorship credit.
+            </p>
+            <div class="pr-hygiene-note">
+              <strong>Impact:</strong> Prevents catastrophic latency tail inflation (P99) under sustained memory saturation by enforcing deterministic starvation bounds.
+            </div>
+          </div>
+
+          <div class="pr-status-col">
+            <a href="https://github.com/vllm-project/vllm/pull/51574" target="_blank" rel="noopener noreferrer" class="btn-github">
+              View PR #51574 &rarr;
+            </a>
+          </div>
+        </article>
+
+        <!-- 2. vLLM #56964 -->
+        <article class="pr-row-card" style="padding: 30px;" id="vllm-56964">
+          <div class="pr-target-col">
+            <span class="pr-repo-tag" style="font-size: 1.1rem;">vLLM</span>
+            <span class="pr-id-link" style="font-size: 0.95rem;">PR #56964</span>
+            <span class="badge badge-upstream">Author: Aravind</span>
+            <span class="badge badge-neutral">Status: Open</span>
+          </div>
+
+          <div class="pr-content-col">
+            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">
+              Marlin Quantized Backend Crash with Unquantized Draft Models
+            </h3>
+            <p class="pr-desc" style="font-size: 0.95rem;">
+              <strong>Root Cause:</strong> When running speculative decoding where the target model is Marlin-quantized (FP8/INT4) but the draft model contains unquantized layers, vLLM threw an unhandled execution exception because the Marlin backend failed to execute non-quantized tensor operations.
+            </p>
+            <p class="pr-desc" style="font-size: 0.95rem;">
+              <strong>Architectural Fix:</strong> Implemented a dynamic fallback check in the speculative decoding model loader, gracefully defaulting unquantized draft layers to the <code class="mono">auto</code> backend execution path without degrading target kernel speed.
+            </p>
+            <div class="pr-hygiene-note">
+              <strong>Impact:</strong> Enables heterogeneous quantization regimes in speculative decoding setups without runtime engine termination.
+            </div>
+          </div>
+
+          <div class="pr-status-col">
+            <a href="https://github.com/vllm-project/vllm/pull/56964" target="_blank" rel="noopener noreferrer" class="btn-github">
+              View PR #56964 &rarr;
+            </a>
+          </div>
+        </article>
+
+        <!-- 3. SGLang #39623 -->
+        <article class="pr-row-card" style="padding: 30px;" id="sglang-39623">
+          <div class="pr-target-col">
+            <span class="pr-repo-tag" style="font-size: 1.1rem;">SGLang</span>
+            <span class="pr-id-link" style="font-size: 0.95rem;">PR #39623</span>
+            <span class="badge badge-upstream">Author: Aravind</span>
+            <span class="badge badge-neutral">Status: Open</span>
+          </div>
+
+          <div class="pr-content-col">
+            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">
+              Unbounded Memory Growth in Prefill/Decode Disaggregation via Orphaned ZMQ Rooms
+            </h3>
+            <p class="pr-desc" style="font-size: 0.95rem;">
+              <strong>Root Cause:</strong> In SGLang's disaggregated prefill/decode architecture, ZeroMQ bootstrap rooms are allocated to coordinate inter-node tensor transfer. Under network partitions or abrupt client disconnects, room references were never garbage-collected, leading to linear memory growth and eventual host OOM.
+            </p>
+            <p class="pr-desc" style="font-size: 0.95rem;">
+              <strong>Architectural Fix:</strong> Added an active O(1) min-heap TTL (Time-To-Live) sweeper thread that periodically cleans expired handshake tokens and evicts orphaned room states.
+            </p>
+            <div class="pr-hygiene-note">
+              <strong>Impact:</strong> Stabilizes long-running disaggregated cluster instances against client dropouts and network jitter.
+            </div>
+          </div>
+
+          <div class="pr-status-col">
+            <a href="https://github.com/sgl-project/sglang/pull/39623" target="_blank" rel="noopener noreferrer" class="btn-github">
+              View PR #39623 &rarr;
+            </a>
+          </div>
+        </article>
+
+        <!-- 4. SGLang #39741 -->
+        <article class="pr-row-card" style="padding: 30px;" id="sglang-39741">
+          <div class="pr-target-col">
+            <span class="pr-repo-tag" style="font-size: 1.1rem;">SGLang</span>
+            <span class="pr-id-link" style="font-size: 0.95rem;">PR #39741</span>
+            <span class="badge badge-upstream">Author: Aravind</span>
+            <span class="badge badge-neutral">Status: Open</span>
+          </div>
+
+          <div class="pr-content-col">
+            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">
+              Qwen3.5 GDN Hybrid Model Crash Under Marlin Tile Divisibility
+            </h3>
+            <p class="pr-desc" style="font-size: 0.95rem;">
+              <strong>Root Cause:</strong> Attempting to load Qwen3.5 GDN hybrid architecture models under Marlin quantization resulted in silent tile divisibility violations, causing CUDA illegal memory access errors during tensor layout initialization.
+            </p>
+            <p class="pr-desc" style="font-size: 0.95rem;">
+              <strong>Architectural Fix:</strong> Added pre-flight dimension validation checking tile-divisibility constraints prior to kernel invocation, triggering safe fallback to compatible kernel variants when non-standard dimensions are encountered.
+            </p>
+            <div class="pr-hygiene-note">
+              <strong>Impact:</strong> Prevents silent GPU crashes when loading non-standard hybrid recurrent/transformer weights.
+            </div>
+          </div>
+
+          <div class="pr-status-col">
+            <a href="https://github.com/sgl-project/sglang/pull/39741" target="_blank" rel="noopener noreferrer" class="btn-github">
+              View PR #39741 &rarr;
+            </a>
+          </div>
+        </article>
+
+        <!-- 5. SGLang #37067 -->
+        <article class="pr-row-card" style="padding: 30px;" id="sglang-37067">
+          <div class="pr-target-col">
+            <span class="pr-repo-tag" style="font-size: 1.1rem;">SGLang</span>
+            <span class="pr-id-link" style="font-size: 0.95rem;">PR #37067</span>
+            <span class="badge badge-upstream">Author: Aravind</span>
+            <span class="badge badge-neutral">Status: Open</span>
+          </div>
+
+          <div class="pr-content-col">
+            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">
+              Refactoring RadixCache.total_size() from O(N) to O(1)
+            </h3>
+            <p class="pr-desc" style="font-size: 0.95rem;">
+              <strong>Code Change:</strong> Refactored the internal radix tree size accounting in <code class="mono">RadixCache</code> to maintain an incremental token count during insertion and eviction, eliminating recursive tree traversals on metric polling.
+            </p>
+            <div class="negative-callout" style="background: rgba(255, 255, 255, 0.03); border-color: var(--border-medium); margin-top: 10px;">
+              <div class="negative-callout-header" style="color: var(--text-light);">Disclosed Scope Clarification</div>
+              <p class="negative-callout-text" style="color: var(--text-secondary);">
+                <strong>Maintainer-confirmed code-hygiene improvement, not a hot-path performance fix.</strong> Because <code class="mono">total_size()</code> is typically invoked for telemetry and logging rather than inside the critical per-token decode loop, this PR improves algorithmic cleanliness and code maintenance rather than raw latency.
+              </p>
+            </div>
+          </div>
+
+          <div class="pr-status-col">
+            <a href="https://github.com/sgl-project/sglang/pull/37067" target="_blank" rel="noopener noreferrer" class="btn-github">
+              View PR #37067 &rarr;
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="brand-title" style="margin-bottom: 10px;">
+            <img src="assets/favicon.svg" alt="" width="20" height="20" style="display:inline-block; vertical-align:middle; margin-right:6px;">
+            Anavind Labs
+          </div>
+          <p style="font-size: 0.9rem; max-width: 480px; margin-bottom: 14px;">
+            An independent lab building, benchmarking and fixing LLM serving and GPU infrastructure, with every result published openly.
+          </p>
+          <div class="footer-legal-callout">
+            <p>
+              <strong>Practice Disclosure:</strong> Anavind Labs is a self-employed independent research practice operated by Aravind Sundaresan since November 2023. It is not an incorporated company or an LLP.
+            </p>
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Research</h4>
+          <ul class="footer-links-list">
+            <li><a href="research.html#clairvoyant">Clairvoyant (SJF)</a></li>
+            <li><a href="research.html#kube-sentinel">Kube-Sentinel (K8s)</a></li>
+            <li><a href="research.html#aether-control">Aether Control (vLLM)</a></li>
+            <li><a href="research.html#heterodisagg">HeteroDisagg (FP8)</a></li>
+            <li><a href="research.html#multi-node-lab">Multi-Node Lab (CUDA)</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html">Systems Stack</a></li>
+            <li><a href="upstream.html">Upstream Contributions</a></li>
+            <li><a href="benchmarks.html">Provenance & Testbeds</a></li>
+            <li><a href="about.html">About & Career</a></li>
+            <li><a href="https://github.com/Aravind0403" target="_blank" rel="noopener noreferrer">GitHub Profile</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2023–2026 Aravind Sundaresan &middot; Anavind Labs</span>
+        <span>Every number carries its provenance.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

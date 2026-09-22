@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anavind Labs — LLM Serving & GPU Infrastructure Research</title>
+  <meta name="description" content="An independent lab building, benchmarking and fixing LLM serving and GPU infrastructure, with every result published openly.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <img src="assets/favicon.svg" alt="Anavind Labs Logo" class="brand-icon">
+        <div class="brand-text">
+          <span class="brand-title">
+            Anavind Labs
+            <span class="brand-badge">Solo Lab</span>
+          </span>
+          <span class="brand-subtitle">Independent Systems Practice</span>
+        </div>
+      </a>
+
+      <button class="mobile-toggle" aria-label="Toggle Navigation Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="research.html" class="nav-link">Research & Systems</a>
+        <a href="upstream.html" class="nav-link">Upstream PRs</a>
+        <a href="benchmarks.html" class="nav-link">Benchmarks & Provenance</a>
+        <a href="about.html" class="nav-link">About & Practice</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://github.com/Aravind0403" target="_blank" rel="noopener noreferrer" class="btn-github">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          github.com/Aravind0403
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-tagline-wrap">
+          <div class="hero-status-pill">
+            <span class="status-dot"></span>
+            Independent Research Practice &middot; Since Nov 2023
+          </div>
+        </div>
+
+        <h1 class="hero-headline">
+          Engineering the <span class="accent">LLM Serving & GPU Systems Stack</span> with Complete Provenance.
+        </h1>
+
+        <p class="hero-one-liner">
+          An independent lab building, benchmarking and fixing LLM serving and GPU infrastructure, with every result published openly.
+        </p>
+
+        <p class="lead" style="max-width: 860px; margin-bottom: 28px;">
+          I investigate bottlenecks across the entire inference pipeline — from scheduling theory and cluster placement down to PagedAttention internals and CUDA memory bandwidth. Every number published here states the exact hardware, workload, and distinction between measured facts and modeled projections.
+        </p>
+
+        <!-- Principles Strip -->
+        <div class="hero-principles-strip">
+          <div class="principle-card">
+            <div class="principle-header">
+              <span class="badge badge-measured">Provenance</span>
+              <span class="principle-title">Explicit Hardware Baseline</span>
+            </div>
+            <p class="principle-desc">
+              Every throughput and latency number is anchored to specific bare-metal or cloud hardware (RTX 4090, GCP L4, Vast.ai A100/3090). No merged benchmarks.
+            </p>
+          </div>
+
+          <div class="principle-card">
+            <div class="principle-header">
+              <span class="badge badge-modeled">Discipline</span>
+              <span class="principle-title">Measured vs. Modeled</span>
+            </div>
+            <p class="principle-desc">
+              Trace-driven simulations and analytical projections are explicitly stated in the exact same sentence as the number — never disguised as measured results.
+            </p>
+          </div>
+
+          <div class="principle-card">
+            <div class="principle-header">
+              <span class="badge badge-negative">Rigor</span>
+              <span class="principle-title">Disconfirmed Results Published</span>
+            </div>
+            <p class="principle-desc">
+              When a kernel slows down, when a stateless heuristic beats a learned model, or when dataset brevity skews a classifier, I publish the disconfirmed result as a primary technical finding.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Systems Stack Visualizer -->
+    <section class="section-systems-stack" id="systems-stack">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">End-to-End Systems Architecture</div>
+          <h2 class="section-title">The LLM Serving & Compute Stack</h2>
+          <p class="section-subtitle">
+            Every project in this practice attacks a different layer of the same overarching challenge: making LLM systems fast, reliable, and honestly measured.
+          </p>
+        </div>
+
+        <div class="stack-container">
+          <!-- Layer 1 -->
+          <div class="stack-layer-row" data-target="research.html#clairvoyant">
+            <div class="layer-index">L1</div>
+            <div class="layer-title-wrap">
+              <span class="layer-name">Request Scheduling</span>
+              <span class="layer-scope">Edge / Ingress Proxy</span>
+            </div>
+            <p class="layer-desc">
+              Shortest-Job-First dispatch using an ONNX-exported XGBoost classifier predicting output token length at 0.029ms P99 before GPU admission.
+            </p>
+            <div class="layer-project-tag">
+              <span class="badge badge-measured">Measured: -83.6% P50</span>
+              <a href="research.html#clairvoyant" class="project-name-link">Clairvoyant &rarr;</a>
+            </div>
+          </div>
+
+          <!-- Layer 2 -->
+          <div class="stack-layer-row" data-target="research.html#kube-sentinel">
+            <div class="layer-index">L2</div>
+            <div class="layer-title-wrap">
+              <span class="layer-name">Cluster / GPU Scheduling</span>
+              <span class="layer-scope">Kubernetes Scheduler Plugin</span>
+            </div>
+            <p class="layer-desc">
+              Native K8s scheduler plugin in Go with 4-dimensional trust discounting and circuit-breaker telemetry failover for bursty GPU workloads.
+            </p>
+            <div class="layer-project-tag">
+              <span class="badge badge-measured">1,252.6 pods/s @ 0.98ms</span>
+              <a href="research.html#kube-sentinel" class="project-name-link">Kube-Sentinel &rarr;</a>
+            </div>
+          </div>
+
+          <!-- Layer 3 -->
+          <div class="stack-layer-row" data-target="research.html#aether-control">
+            <div class="layer-index">L3</div>
+            <div class="layer-title-wrap">
+              <span class="layer-name">Serving Control Plane</span>
+              <span class="layer-scope">vLLM Ingress & Resilience</span>
+            </div>
+            <p class="layer-desc">
+              CoDel-based overload control (500ms target), radix-cache tenant quotas, consistent-hash routing (>95% cache hits), and chunked prefill orchestration.
+            </p>
+            <div class="layer-project-tag">
+              <span class="badge badge-measured">-88.9% P99 TTFT</span>
+              <a href="research.html#aether-control" class="project-name-link">Aether Control &rarr;</a>
+            </div>
+          </div>
+
+          <!-- Layer 4 -->
+          <div class="stack-layer-row" data-target="research.html#heterodisagg">
+            <div class="layer-index">L4</div>
+            <div class="layer-title-wrap">
+              <span class="layer-name">Cross-Hardware Serving</span>
+              <span class="layer-scope">Disaggregated Prefill / Decode</span>
+            </div>
+            <p class="layer-desc">
+              Serving across asymmetric GPUs (A100 prefill + RTX 3090 decode) with dynamic Roofline profiling and in-flight FP8 KV-cache re-sharding.
+            </p>
+            <div class="layer-project-tag">
+              <span class="badge badge-negative">Kernel: +11-32ms / 2x Wire</span>
+              <a href="research.html#heterodisagg" class="project-name-link">HeteroDisagg &rarr;</a>
+            </div>
+          </div>
+
+          <!-- Layer 5 -->
+          <div class="stack-layer-row" data-target="research.html#aether-control">
+            <div class="layer-index">L5</div>
+            <div class="layer-title-wrap">
+              <span class="layer-name">Training & Pre-Flight Guards</span>
+              <span class="layer-scope">Post-Training & Collation Gate</span>
+            </div>
+            <p class="layer-desc">
+              Sub-millisecond CPU profiler (TrainSight) flagging sequence-length variance and OOM risk before GPU allocation, guarding GRPO ZeRO-3 pipelines.
+            </p>
+            <div class="layer-project-tag">
+              <span class="badge badge-measured">F1=1.000 / +81% Throughput</span>
+              <a href="research.html#aether-control" class="project-name-link">TrainSight & GRPO &rarr;</a>
+            </div>
+          </div>
+
+          <!-- Layer 6 -->
+          <div class="stack-layer-row" data-target="research.html#multi-node-lab">
+            <div class="layer-index">L6</div>
+            <div class="layer-title-wrap">
+              <span class="layer-name">Low-Level GPU Mechanics</span>
+              <span class="layer-scope">CUDA Kernels & Memory Hierarchy</span>
+            </div>
+            <p class="layer-desc">
+              Comparative analysis of vLLM vs SGLang memory schedulers, shared-memory matmul tiling, and occupancy limits on memory-bandwidth-bound kernels.
+            </p>
+            <div class="layer-project-tag">
+              <span class="badge badge-study">Study Repo / 4-Warp Limit</span>
+              <a href="research.html#multi-node-lab" class="project-name-link">Multi-Node Lab &rarr;</a>
+            </div>
+          </div>
+
+          <!-- Layer 7 -->
+          <div class="stack-layer-row" data-target="upstream.html">
+            <div class="layer-index">L7</div>
+            <div class="layer-title-wrap">
+              <span class="layer-name">Upstream Engine Fixes</span>
+              <span class="layer-scope">vLLM & SGLang Core</span>
+            </div>
+            <p class="layer-desc">
+              Hardening the serving engines the industry depends on: speculative decoding draft fallback, ZMQ room heap leak fix, and PriorityQueue starvation caps.
+            </p>
+            <div class="layer-project-tag">
+              <span class="badge badge-upstream">4 Open PRs &middot; 1 Co-Authored</span>
+              <a href="upstream.html" class="project-name-link">Upstream Contributions &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flagship Disclosures Grid -->
+    <section class="section-disclosures">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">Empirical Highlights</div>
+          <h2 class="section-title">Selected Systems Disclosures</h2>
+          <p class="section-subtitle">
+            A sample of verified benchmarks across my research projects. Every metric carries its exact testbed hardware and methodological caveats.
+          </p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card 1: Clairvoyant -->
+          <article class="dossier-card">
+            <div class="card-top">
+              <div class="card-meta-bar">
+                <span class="badge badge-measured">Measured Benchmark</span>
+                <span class="card-hardware-tag">GCP L4 &middot; RTX 4090 &middot; M1</span>
+              </div>
+              <h3 class="card-title">Clairvoyant: Predictive Request Scheduler</h3>
+              <p class="card-mechanism">
+                Go sidecar proxy sitting before upstream backends (Ollama, llama.cpp) without backend modification. Evaluates a 19-feature XGBoost model exported to ONNX to infer output token lengths at 0.029ms P99 for Shortest-Job-First dispatch.
+              </p>
+
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-label">Benchmark Results (Published in arXiv:2606.07248)</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">P50 Latency (GCP L4, trace replay)</span>
+                  <span class="metric-value">-83.6%</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">P50 Latency (RTX 4090, burst)</span>
+                  <span class="metric-value">-70% to -76%</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Pairwise Ranking (LMSYS-Chat-1M)</span>
+                  <span class="metric-value">95.1%</span>
+                </div>
+              </div>
+
+              <div class="negative-callout">
+                <div class="negative-callout-header">Empirical Finding & Limitation</div>
+                <p class="negative-callout-text">
+                  Curated instruction datasets (Alpaca-style) proved completely unusable as training data due to GPT-imposed brevity bias. Real-world multi-turn conversational traces (ShareGPT, LMSYS) were required to achieve valid ranking.
+                </p>
+              </div>
+            </div>
+
+            <div class="card-footer-actions">
+              <a href="https://arxiv.org/abs/2606.07248" target="_blank" rel="noopener noreferrer" class="action-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                arXiv:2606.07248
+              </a>
+              <a href="https://github.com/Aravind0403/clairvoyant-scheduler" target="_blank" rel="noopener noreferrer" class="action-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                GitHub
+              </a>
+              <a href="research.html#clairvoyant" class="action-link" style="margin-left: auto;">Dossier &rarr;</a>
+            </div>
+          </article>
+
+          <!-- Card 2: Kube-Sentinel -->
+          <article class="dossier-card">
+            <div class="card-top">
+              <div class="card-meta-bar">
+                <span class="badge badge-measured">Measured Live GKE</span>
+                <span class="badge badge-modeled">Simulated Trace</span>
+              </div>
+              <h3 class="card-title">Kube-Sentinel: Native K8s GPU Scheduler</h3>
+              <p class="card-mechanism">
+                Native Kubernetes scheduler plugin implementing PreScore, Score, Reserve, Unreserve, PreBind, and PostBind hooks in Go, backed by a Python gRPC telemetry daemon with circuit-breaker resilience.
+              </p>
+
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-label">Measured vs. Modeled Disclosures</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Throughput (Live GKE CPU Host)</span>
+                  <span class="metric-value">1,252.6 pods/s @ 0.98ms P99</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Throughput (Live GKE L4 Host)</span>
+                  <span class="metric-value">1,245.6 pods/s @ 0.97ms P99</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Alibaba 32-Node Cost Simulation</span>
+                  <span class="metric-value amber">46.3% Modeled Saving</span>
+                </div>
+              </div>
+
+              <div class="negative-callout" style="background: var(--accent-amber-dim); border-color: rgba(245, 158, 11, 0.3);">
+                <div class="negative-callout-header" style="color: #FBBF24;">Explicit Provenance Caveat</div>
+                <p class="negative-callout-text" style="color: #FDE68A;">
+                  The 46.3% GPU cost reduction ($64.44/hr vs $120/hr) is derived entirely from an offline trace-replay simulation on Alibaba 2018 cluster logs across 32 nodes. It is a <strong>modeled projection</strong>, not a measured production saving.
+                </p>
+              </div>
+            </div>
+
+            <div class="card-footer-actions">
+              <a href="https://github.com/Aravind0403/Kube-Sentinel" target="_blank" rel="noopener noreferrer" class="action-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                GitHub
+              </a>
+              <a href="research.html#kube-sentinel" class="action-link" style="margin-left: auto;">Dossier &rarr;</a>
+            </div>
+          </article>
+
+          <!-- Card 3: HeteroDisagg -->
+          <article class="dossier-card">
+            <div class="card-top">
+              <div class="card-meta-bar">
+                <span class="badge badge-negative">Disconfirmed Result Disclosed</span>
+                <span class="card-hardware-tag">Vast.ai A100 + RTX 3090</span>
+              </div>
+              <h3 class="card-title">HeteroDisagg: Asymmetric Hardware Serving</h3>
+              <p class="card-mechanism">
+                Addresses vLLM/SGLang's assumption of uniform GPU clusters by assigning high-TFLOPS GPUs to prefill and high-bandwidth/$ GPUs to decode, bridged by HeteroKVConnector asymmetric TP resharding and in-flight FP8 quantization.
+              </p>
+
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-label">Measured Accuracy & Wire Transfer</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Output Cosine Similarity (vs FP16)</span>
+                  <span class="metric-value">99.1% - 99.7%</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Perplexity Shift (Llama-3-8B)</span>
+                  <span class="metric-value">&le; 0.0018</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Wire Payload Reduction</span>
+                  <span class="metric-value">2.0x (FP8)</span>
+                </div>
+              </div>
+
+              <div class="negative-callout">
+                <div class="negative-callout-header">Documented Disconfirmed Result</div>
+                <p class="negative-callout-text">
+                  The isolated FP8 GPU quantization kernel is <strong>slower than uncompressed FP16</strong> (+11ms to +32ms overhead depending on concurrency). The performance win is strictly wire-bandwidth reduction across network-constrained links, not compute speed.
+                </p>
+              </div>
+            </div>
+
+            <div class="card-footer-actions">
+              <a href="https://github.com/Aravind0403/HeteroDisagg" target="_blank" rel="noopener noreferrer" class="action-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                GitHub
+              </a>
+              <a href="research.html#heterodisagg" class="action-link" style="margin-left: auto;">Dossier &rarr;</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upstream Ticker -->
+    <section class="section-systems-stack" style="background: var(--bg);">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">Production Engine Hardening</div>
+          <h2 class="section-title">Upstream Contributions (vLLM & SGLang)</h2>
+          <p class="section-subtitle">
+            I don't just build external sidecars; I fix race conditions, memory leaks, and architectural oversights directly inside the core engines the rest of the industry runs on.
+          </p>
+        </div>
+
+        <div class="pr-grid">
+          <!-- PR 1 -->
+          <div class="pr-row-card">
+            <div class="pr-target-col">
+              <span class="pr-repo-tag">vLLM #51574</span>
+              <span class="badge badge-upstream">Co-Authored</span>
+              <span class="card-hardware-tag">v1 Engine Queue</span>
+            </div>
+            <div class="pr-content-col">
+              <h4>Preempted Requests Starvation & Re-Admission Bug</h4>
+              <p class="pr-desc">
+                Filed root-cause bug (vLLM #41951) where preempted requests lost re-admission priority in <code class="mono">PriorityRequestQueue</code>. Wrote initial PRs #41952 and #56843 with a bounded starvation cap; unit tests were cherry-picked into consolidated PR #51574 with co-authorship credit.
+              </p>
+            </div>
+            <div class="pr-status-col">
+              <span class="badge badge-neutral">Status: Open</span>
+              <a href="upstream.html#vllm-51574" class="action-link">Analysis &rarr;</a>
+            </div>
+          </div>
+
+          <!-- PR 2 -->
+          <div class="pr-row-card">
+            <div class="pr-target-col">
+              <span class="pr-repo-tag">SGLang #39623</span>
+              <span class="badge badge-upstream">Open PR</span>
+              <span class="card-hardware-tag">Disaggregated Serving</span>
+            </div>
+            <div class="pr-content-col">
+              <h4>Unbounded Memory Leak in Prefill/Decode Bootstrap Rooms</h4>
+              <p class="pr-desc">
+                Fixed unbounded memory growth in prefill/decode disaggregation caused by orphaned ZMQ bootstrap-room state under client disconnects. Implemented an O(1) min-heap TTL sweeper.
+              </p>
+            </div>
+            <div class="pr-status-col">
+              <span class="badge badge-neutral">Status: Open</span>
+              <a href="upstream.html#sglang-39623" class="action-link">Analysis &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; text-align: right;">
+          <a href="upstream.html" class="action-link" style="font-size: 0.95rem;">
+            View all 5 upstream PRs & architectural teardowns &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bio / Career Anchor -->
+    <section style="padding: 80px 0; border-top: 1px solid var(--border);">
+      <div class="container">
+        <div style="max-width: 840px;">
+          <div class="section-eyebrow">Background & Practice</div>
+          <h2 style="font-size: 2.2rem; margin-bottom: 20px;">7+ years of software engineering</h2>
+          <p class="lead" style="margin-bottom: 20px;">
+            Anavind Labs is my independent research practice, run full-time since November 2023. Prior to independent systems research, I spent 6+ years engineering distributed platforms, systems telemetry, and infrastructure across Microsoft R&D India, Amazon Development Centre, and OMG Labs.
+          </p>
+          <div class="timeline-project-metrics" style="margin-bottom: 28px;">
+            <span class="metric-pill">Microsoft SWE II (Platform & Infra)</span>
+            <span class="metric-pill">17,000+ Microservices</span>
+            <span class="metric-pill">Amazon SDE (Systems & Devices)</span>
+            <span class="metric-pill">50+ Device Categories</span>
+            <span class="metric-pill">OMG Labs Technical Lead</span>
+          </div>
+          <a href="about.html" class="btn-github" style="display: inline-flex; padding: 10px 20px; font-size: 0.92rem;">
+            Read complete background & practice model &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="brand-title" style="margin-bottom: 10px;">
+            <img src="assets/favicon.svg" alt="" width="20" height="20" style="display:inline-block; vertical-align:middle; margin-right:6px;">
+            Anavind Labs
+          </div>
+          <p style="font-size: 0.9rem; max-width: 480px; margin-bottom: 14px;">
+            An independent lab building, benchmarking and fixing LLM serving and GPU infrastructure, with every result published openly.
+          </p>
+          <div class="footer-legal-callout">
+            <p>
+              <strong>Practice Disclosure:</strong> Anavind Labs is a self-employed independent research practice operated by Aravind Sundaresan since November 2023. It is not an incorporated company or an LLP.
+            </p>
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Research</h4>
+          <ul class="footer-links-list">
+            <li><a href="research.html#clairvoyant">Clairvoyant (SJF)</a></li>
+            <li><a href="research.html#kube-sentinel">Kube-Sentinel (K8s)</a></li>
+            <li><a href="research.html#aether-control">Aether Control (vLLM)</a></li>
+            <li><a href="research.html#heterodisagg">HeteroDisagg (FP8)</a></li>
+            <li><a href="research.html#multi-node-lab">Multi-Node Lab (CUDA)</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html">Systems Stack</a></li>
+            <li><a href="upstream.html">Upstream Contributions</a></li>
+            <li><a href="benchmarks.html">Provenance & Testbeds</a></li>
+            <li><a href="about.html">About & Career</a></li>
+            <li><a href="https://github.com/Aravind0403" target="_blank" rel="noopener noreferrer">GitHub Profile</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2023–2026 Aravind Sundaresan &middot; Anavind Labs</span>
+        <span>Every number carries its provenance.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

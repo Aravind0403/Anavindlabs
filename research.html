@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research & Systems Dossiers — Anavind Labs</title>
+  <meta name="description" content="Technical dossiers, architecture breakdowns, verified benchmarks, and honest negative results across the Anavind Labs systems research stack.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <img src="assets/favicon.svg" alt="Anavind Labs Logo" class="brand-icon">
+        <div class="brand-text">
+          <span class="brand-title">
+            Anavind Labs
+            <span class="brand-badge">Solo Lab</span>
+          </span>
+          <span class="brand-subtitle">Independent Systems Practice</span>
+        </div>
+      </a>
+
+      <button class="mobile-toggle" aria-label="Toggle Navigation Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="research.html" class="nav-link active">Research & Systems</a>
+        <a href="upstream.html" class="nav-link">Upstream PRs</a>
+        <a href="benchmarks.html" class="nav-link">Benchmarks & Provenance</a>
+        <a href="about.html" class="nav-link">About & Practice</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://github.com/Aravind0403" target="_blank" rel="noopener noreferrer" class="btn-github">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.484 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          github.com/Aravind0403
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <main>
+    <section style="padding: 60px 0 40px; border-bottom: 1px solid var(--border-subtle);">
+      <div class="container">
+        <div class="section-eyebrow">Systems Research Catalog</div>
+        <h1 style="margin-bottom: 16px;">Research & Systems Dossiers</h1>
+        <p class="lead" style="max-width: 880px;">
+          Six systems investigating bottlenecks from request admission down to memory-bandwidth saturation. Every dossier documents mechanism, hardware testbed, measured benchmarks, and explicit disconfirmed findings.
+        </p>
+
+        <!-- Category Filters -->
+        <div class="filter-bar" style="margin-top: 28px;">
+          <button class="filter-btn active" data-filter="all">All Systems (6)</button>
+          <button class="filter-btn" data-filter="scheduling">Scheduling & Placement</button>
+          <button class="filter-btn" data-filter="serving">Serving Infrastructure</button>
+          <button class="filter-btn" data-filter="kernels">Kernels & Hardware</button>
+          <button class="filter-btn" data-filter="guardrails">Pre-Flight & Static Analysis</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Catalog -->
+    <section style="padding: 60px 0;">
+      <div class="container" style="display: grid; gap: 48px;">
+
+        <!-- 1. Clairvoyant -->
+        <article class="project-dossier-wrap" data-category="scheduling" id="clairvoyant">
+          <div class="dossier-card" style="padding: 32px;">
+            <div class="card-top">
+              <div class="card-meta-bar">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <span class="badge badge-measured">Measured Latency</span>
+                  <span class="badge badge-neutral">Preprint Published</span>
+                </div>
+                <span class="card-hardware-tag">GCP L4 &middot; RTX 4090 24GB &middot; Apple M1 16GB</span>
+              </div>
+
+              <h2 style="font-size: 1.8rem; margin-bottom: 8px;">
+                Clairvoyant: Predictive Request Scheduler for LLM Serving
+              </h2>
+              <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--measured); margin-bottom: 16px;">
+                Published: arXiv:2606.07248 &middot; Stack Layer: Request Scheduling (L1)
+              </p>
+
+              <p class="card-mechanism">
+                Standard LLM serving proxies process incoming requests under First-Come-First-Served (FCFS), leading to head-of-line blocking when high-token generations stall short conversational queries. Clairvoyant is a backend-agnostic Go sidecar proxy that intercepts incoming HTTP/gRPC requests before GPU engines (Ollama, llama.cpp) with zero modification to upstream code. It evaluates a 19-feature XGBoost classifier exported to ONNX to infer generated token length in <strong>0.029ms P99</strong> (approximately 70,000&times; faster than generation time) and re-orders dispatch using Shortest-Job-First (SJF).
+              </p>
+
+              <!-- Benchmark Table -->
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Hardware & Testbed</th>
+                      <th>Workload Scenario</th>
+                      <th>Metric Evaluated</th>
+                      <th>Observed Reduction</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>GCP L4 (24GB)</td>
+                      <td>Real trace replay (ShareGPT)</td>
+                      <td class="num">P50 Queue Latency</td>
+                      <td class="highlight">-83.6%</td>
+                      <td><span class="badge badge-measured">Measured</span></td>
+                    </tr>
+                    <tr>
+                      <td>Bare-metal RTX 4090 (24GB)</td>
+                      <td>Bursty synthetic arrivals</td>
+                      <td class="num">P50 Queue Latency</td>
+                      <td class="highlight">-70.0% to -76.0%</td>
+                      <td><span class="badge badge-measured">Measured</span></td>
+                    </tr>
+                    <tr>
+                      <td>Apple Silicon M1 (16GB)</td>
+                      <td>Edge LLM pipeline (llama.cpp)</td>
+                      <td class="num">P50 Generation Latency</td>
+                      <td class="highlight">-68.1%</td>
+                      <td><span class="badge badge-measured">Measured</span></td>
+                    </tr>
+                    <tr>
+                      <td>Offline Evaluation</td>
+                      <td>LMSYS-Chat-1M dataset</td>
+                      <td class="num">Pairwise Ranking Accuracy</td>
+                      <td class="highlight">95.1%</td>
+                      <td><span class="badge badge-measured">Measured</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Disconfirmed Result Box -->
+              <div class="negative-callout">
+                <div class="negative-callout-header">Critical Engineering Finding & Disconfirmed Result</div>
+                <p class="negative-callout-text">
+                  <strong>Curated synthetic instruction datasets (Alpaca-style) are unusable for length-predictor training.</strong> Models trained on Alpaca exhibited severe prediction collapse because GPT-generated responses suffer from artificial brevity bias. The classifier learned to rank based on synthetic instruction patterns rather than natural token distribution. True predictive ranking required training on uncurated multi-turn human conversation logs (ShareGPT and LMSYS-Chat-1M).
+                </p>
+              </div>
+            </div>
+
+            <div class="card-footer-actions">
+              <a href="https://arxiv.org/abs/2606.07248" target="_blank" rel="noopener noreferrer" class="btn-github">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                Read Paper (arXiv:2606.07248)
+              </a>
+              <a href="https://github.com/Aravind0403/clairvoyant-scheduler" target="_blank" rel="noopener noreferrer" class="btn-github">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                GitHub Repository
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. Kube-Sentinel -->
+        <article class="project-dossier-wrap" data-category="scheduling" id="kube-sentinel">
+          <div class="dossier-card" style="padding: 32px;">
+            <div class="card-top">
+              <div class="card-meta-bar">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <span class="badge badge-measured">Measured Live GKE</span>
+                  <span class="badge badge-modeled">Simulated Cost Model</span>
+                </div>
+                <span class="card-hardware-tag">Live GKE Cluster &middot; Alibaba 32-Node Trace</span>
+              </div>
+
+              <h2 style="font-size: 1.8rem; margin-bottom: 8px;">
+                Kube-Sentinel: Native Kubernetes GPU Scheduler Plugin (V2)
+              </h2>
+              <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--measured); margin-bottom: 16px;">
+                github.com/Aravind0403/Kube-Sentinel &middot; Stack Layer: Cluster / GPU Scheduling (L2) &middot; Builds on ACO Research Core
+              </p>
+
+              <p class="card-mechanism">
+                Kube-Sentinel is an in-tree scheduler plugin compiled directly against Kubernetes Scheduler Framework extension points in Go (<code class="mono">PreScore</code>, <code class="mono">Score</code>, <code class="mono">Reserve</code>, <code class="mono">Unreserve</code>, <code class="mono">PreBind</code>, <code class="mono">PostBind</code>). It builds upon the ACO (Ant Colony Optimization) research core and couples with a high-throughput Python gRPC telemetry daemon running on GPU worker nodes. The scheduler evaluates node health across 4 trust dimensions (internal metric consistency, heartbeat freshness, jitter, and cross-scheduler state coherence) and incorporates a Go circuit breaker to failover gracefully if telemetry drops.
+              </p>
+
+              <!-- Measured vs Modeled Callout -->
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Measurement Type</th>
+                      <th>Environment / Target</th>
+                      <th>Throughput / Latency / Cost</th>
+                      <th>Provenance Rigor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="badge badge-measured">Live Measured</span></td>
+                      <td>GKE Cluster (CPU Host Nodes)</td>
+                      <td class="num highlight">1,252.6 pods/sec @ 0.98ms P99</td>
+                      <td>Real cluster testbed, 210 passing tests</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge badge-measured">Live Measured</span></td>
+                      <td>GKE Cluster (NVIDIA L4 Nodes)</td>
+                      <td class="num highlight">1,245.6 pods/sec @ 0.97ms P99</td>
+                      <td>Direct scheduler-framework hook profiling</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge badge-measured">Live Measured</span></td>
+                      <td>High-concurrency burst test</td>
+                      <td class="num highlight">3.98ms P99 at 10,000-pod burst</td>
+                      <td>0 failed pod bindings under daemon termination</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge badge-modeled">Modeled Simulation</span></td>
+                      <td>Alibaba GPU Trace Replay (32 Nodes)</td>
+                      <td class="num" style="color:var(--modeled);">46.3% Cost Reduction ($64.44/hr vs $120/hr)</td>
+                      <td><strong>Analytical simulation only</strong>; not measured on prod nodes</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="negative-callout" style="background: var(--modeled-bg); border-color: var(--modeled-border);">
+                <div class="negative-callout-header" style="color: var(--modeled);">Core Distinction: Measured Latency vs. Modeled Savings</div>
+                <p class="negative-callout-text" style="color: var(--text);">
+                  The 1,252.6 pods/sec scheduling rate and sub-millisecond P99 latency were <strong>empirically measured on live GKE Kubernetes nodes</strong>. In contrast, the 46.3% GPU dollar savings is an <strong>offline simulation result</strong> derived from replaying Alibaba's 2018 cluster traces. I do not present this simulation as a verified production financial saving.
+                </p>
+              </div>
+            </div>
+
+            <div class="card-footer-actions">
+              <a href="https://github.com/Aravind0403/Kube-Sentinel" target="_blank" rel="noopener noreferrer" class="btn-github">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                GitHub Repository
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. Aether Control -->
+        <article class="project-dossier-wrap" data-category="serving guardrails" id="aether-control">
+          <div class="dossier-card" style="padding: 32px;">
+            <div class="card-top">
+              <div class="card-meta-bar">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <span class="badge badge-measured">Measured Serving</span>
+                  <span class="badge badge-measured">Incident Root-Cause</span>
+                </div>
+                <span class="card-hardware-tag">Bare-Metal RTX 4090 &middot; GCP L4 (Reported Separately)</span>
+              </div>
+
+              <h2 style="font-size: 1.8rem; margin-bottom: 8px;">
+                Aether Control: vLLM Control Plane & GRPO Post-Training
+              </h2>
+              <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--measured); margin-bottom: 16px;">
+                github.com/Aravind0403/aether-control-llm-infra &middot; Stack Layer: Serving Control Plane & Training Guards (L3 / L5)
+              </p>
+
+              <p class="card-mechanism">
+                Aether Control is a resilient production control plane for vLLM serving and critic-free GRPO (Group Relative Policy Optimization) post-training under DeepSpeed ZeRO-3. It integrates four tightly coupled architectural mechanisms:
+                (1) Controlled Delay (CoDel) load shedding to drop requests when queue latency exceeds a strict 500ms target;
+                (2) Radix-cache tenant quotas to prevent memory hogging;
+                (3) Ingress consistent-hash routing to preserve multi-pod prefix-cache locality (>95% hit rate); and
+                (4) Chunked prefill scheduling to eliminate head-of-line blocking under long-context prompts.
+              </p>
+
+              <!-- Split Benchmarks Table -->
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Hardware Environment</th>
+                      <th>Serving Throughput</th>
+                      <th>Time-To-First-Token (TTFT)</th>
+                      <th>Time-Per-Output-Token (TPOT)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Bare-metal RTX 4090</strong> (24GB)</td>
+                      <td class="num highlight">1,141 tok/s</td>
+                      <td class="num">22.1ms (P50)</td>
+                      <td class="num">6.5ms (P50)</td>
+                    </tr>
+                    <tr>
+                      <td><strong>GCP L4</strong> (24GB)</td>
+                      <td class="num">48.89 tok/s</td>
+                      <td class="num">855.4ms (P50)</td>
+                      <td class="num">24.7ms (P50) / 43.0ms (P99)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Incident Root-Cause Box -->
+              <div class="negative-callout" style="background: rgba(11, 102, 116, 0.06); border-color: var(--measured-border);">
+                <div class="negative-callout-header" style="color: var(--measured);">Root-Causing the 81–93% Throughput Collapse</div>
+                <p class="negative-callout-text" style="color: var(--text);">
+                  During initial stress testing under an aggressive VRAM target, the cluster suffered an abrupt 81% to 93% throughput collapse. Standard debugging would suggest reducing the VRAM target. Instead, heap profiling revealed the root cause: ungated high-variance sequence lengths caused catastrophic batch padding waste and sudden page thrashing in vLLM's memory allocator.
+                  Rather than surrendering GPU efficiency, I built <strong>TrainSight</strong> — a sub-millisecond CPU-based pre-flight InitContainer profiler that flags variance and OOM risk before admission, achieving F1=1.0000 across test sets, increasing batch throughput by 81.0%, and cutting padding waste by 40.2%.
+                </p>
+              </div>
+            </div>
+
+            <div class="card-footer-actions">
+              <a href="https://github.com/Aravind0403/aether-control-llm-infra" target="_blank" rel="noopener noreferrer" class="btn-github">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                GitHub Repository
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4. HeteroDisagg -->
+        <article class="project-dossier-wrap" data-category="serving kernels" id="heterodisagg">
+          <div class="dossier-card" style="padding: 32px;">
+            <div class="card-top">
+              <div class="card-meta-bar">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <span class="badge badge-negative">Disconfirmed Result</span>
+                  <span class="badge badge-measured">Measured On Vast.ai</span>
+                </div>
+                <span class="card-hardware-tag">Vast.ai NVIDIA A100-SXM4 + RTX 3090</span>
+              </div>
+
+              <h2 style="font-size: 1.8rem; margin-bottom: 8px;">
+                HeteroDisagg: Hardware-Aware Disaggregated Serving
+              </h2>
+              <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--measured); margin-bottom: 16px;">
+                github.com/Aravind0403/HeteroDisagg &middot; Stack Layer: Cross-Hardware Serving (L4)
+              </p>
+
+              <p class="card-mechanism">
+                Existing serving engines (vLLM, SGLang) assume homogeneous GPU clusters. In contrast, HeteroDisagg disaggregates prefill and decode across mismatched GPUs. A dynamic Roofline Profiler measures real compute TFLOPS and memory bandwidth on each device, mapping high-TFLOPS GPUs (e.g. A100) to prefill and high-bandwidth-per-dollar GPUs (e.g. RTX 3090) to decode. To bridge mismatched tensor-parallel degrees (e.g. TP=4 prefill to TP=1 decode), I designed <strong>HeteroKVConnector</strong>, which reshardens KV-cache blocks in flight while applying block-wise FP8 quantization.
+              </p>
+
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Evaluated Dimension</th>
+                      <th>Baseline (FP16)</th>
+                      <th>HeteroKVConnector (FP8)</th>
+                      <th>Observed Delta</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Wire Payload Size</td>
+                      <td>100% (Baseline FP16)</td>
+                      <td class="num highlight">50% (FP8 Block)</td>
+                      <td class="highlight">2.0x Wire Reduction</td>
+                    </tr>
+                    <tr>
+                      <td>Output Cosine Similarity</td>
+                      <td>1.0000</td>
+                      <td class="num">0.991 - 0.997</td>
+                      <td>Minimal representation drift</td>
+                    </tr>
+                    <tr>
+                      <td>Perplexity Shift (Llama-3-8B)</td>
+                      <td>Baseline (512–4k tokens)</td>
+                      <td class="num">&le; 0.0018 shift</td>
+                      <td>Statistically negligible loss</td>
+                    </tr>
+                    <tr>
+                      <td>Isolated GPU Kernel Execution</td>
+                      <td>Uncompressed FP16 copy</td>
+                      <td class="num" style="color:var(--negative);">FP8 Quant + Reshard Kernel</td>
+                      <td style="color:var(--negative);"><strong>+11ms to +32ms SLOWER</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="negative-callout">
+                <div class="negative-callout-header">Featured Disconfirmed Result: Kernel Overhead vs Wire Savings</div>
+                <p class="negative-callout-text">
+                  On-device profiling revealed an unmistakable negative result: the isolated CUDA quantization and layout transformation kernel is <strong>slower than transmitting raw FP16</strong> due to thread divergence and block reduction overhead (+11ms to +32ms depending on batch size).
+                  The architecture is a net win <em>only</em> under network-constrained cross-node interconnects (e.g., PCIe / 10GbE / commodity cloud links) where cutting byte transfer by 50% amortizes the kernel cost. Any production claims regarding high-speed fabrics (NVLink/RoCE) remain <strong>analytical projections</strong> and are not claimed as measured wins.
+                </p>
+              </div>
+            </div>
+
+            <div class="card-footer-actions">
+              <a href="https://github.com/Aravind0403/HeteroDisagg" target="_blank" rel="noopener noreferrer" class="btn-github">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                GitHub Repository
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5. Multi-Node-Inference-Lab -->
+        <article class="project-dossier-wrap" data-category="kernels" id="multi-node-lab">
+          <div class="dossier-card" style="padding: 32px;">
+            <div class="card-top">
+              <div class="card-meta-bar">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <span class="badge badge-study">Study & Learning Repository</span>
+                  <span class="badge badge-negative">Disconfirmed Result</span>
+                </div>
+                <span class="card-hardware-tag">CUDA 12.x &middot; Micro-benchmarks</span>
+              </div>
+
+              <h2 style="font-size: 1.8rem; margin-bottom: 8px;">
+                Multi-Node-Inference-Lab: CUDA, Internals & Multi-GPU Study
+              </h2>
+              <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--measured); margin-bottom: 16px;">
+                github.com/Aravind0403/multi-node-inference-lab &middot; Stack Layer: Low-Level GPU Mechanics (L6)
+              </p>
+
+              <div class="negative-callout" style="background: var(--surface-2); border-color: var(--border-strong);">
+                <div class="negative-callout-header" style="color: var(--text);">Repository Scope & Positioning</div>
+                <p class="negative-callout-text" style="color: var(--text-secondary);">
+                  <strong>This repository is strictly a learning, profiling, and exploratory study codebase</strong>, not a packaged production artifact. I built it to understand engine scheduler internals, test micro-optimizations, and inspect memory bandwidth bottlenecks at the metal. Clean multi-node TP benchmark numbers are currently pending validation and are intentionally withheld from citation.
+                </p>
+              </div>
+
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Experiment / Study</th>
+                      <th>Methodology & Verification</th>
+                      <th>Observed Behavior / Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>CUDA Matmul Tiling</strong></td>
+                      <td>Shared-memory 16x16 tiling verified against naive baseline</td>
+                      <td class="highlight">1.6x to 2.5x speedup over naive matrix multiplication</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Occupancy Analysis</strong></td>
+                      <td>CUDA occupancy calculator on memory-bound kernel</td>
+                      <td>Identified 4-warps/block plateau; increasing active warps yielded zero throughput gain</td>
+                    </tr>
+                    <tr>
+                      <td><strong>float4 Vectorization</strong></td>
+                      <td>Vectorized load instruction profiling vs analytic bounds</td>
+                      <td style="color:var(--negative);"><strong>Disconfirmed result:</strong> No consistent speedup once memory bus saturated</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Engine Internals Teardown</strong></td>
+                      <td>Direct codebase audit: vLLM PagedAttention vs SGLang RadixAttention</td>
+                      <td>Block-hash lookup trade-offs vs Radix-tree tree-traversal eviction overheads</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card-footer-actions">
+              <a href="https://github.com/Aravind0403/multi-node-inference-lab" target="_blank" rel="noopener noreferrer" class="btn-github">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                GitHub Repository
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6. ServiceScope -->
+        <article class="project-dossier-wrap" data-category="guardrails" id="servicescope">
+          <div class="dossier-card" style="padding: 32px;">
+            <div class="card-top">
+              <div class="card-meta-bar">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <span class="badge badge-measured">F1=1.0000 Accuracy</span>
+                  <span class="badge badge-neutral">Draft Manuscript</span>
+                </div>
+                <span class="card-hardware-tag">Branch: product_semiversion</span>
+              </div>
+
+              <h2 style="font-size: 1.8rem; margin-bottom: 8px;">
+                ServiceScope: Pre-Deployment Blast-Radius Prediction
+              </h2>
+              <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--measured); margin-bottom: 16px;">
+                github.com/Aravind0403/ServiceScope-v2 &middot; Status: Draft paper exists (Not submitted / Not accepted)
+              </p>
+
+              <p class="card-mechanism">
+                A static pre-deployment blast-radius analyzer for distributed microservices. Combines Tree-sitter polyglot AST parsing across 5 programming languages with a deterministic cross-layer manifest linker (Kubernetes manifests, Helm templates, Docker Compose). Confirmed F1=1.000 accuracy on Google's <code class="mono">microservices-demo</code> and OpenTelemetry's <code class="mono">opentelemetry-demo</code>, executing in a sub-500ms CI stage with &lt;50ms manifest resolution.
+              </p>
+
+              <p style="font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono);">
+                Note on Git branch: Use the <code class="mono">product_semiversion</code> branch for active code; the <code class="mono">main</code> branch is legacy.
+              </p>
+            </div>
+
+            <div class="card-footer-actions">
+              <a href="https://github.com/Aravind0403/ServiceScope-v2/tree/product_semiversion" target="_blank" rel="noopener noreferrer" class="btn-github">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                GitHub (product_semiversion)
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="brand-title" style="margin-bottom: 10px;">
+            <img src="assets/favicon.svg" alt="" width="20" height="20" style="display:inline-block; vertical-align:middle; margin-right:6px;">
+            Anavind Labs
+          </div>
+          <p style="font-size: 0.9rem; max-width: 480px; margin-bottom: 14px;">
+            An independent lab building, benchmarking and fixing LLM serving and GPU infrastructure, with every result published openly.
+          </p>
+          <div class="footer-legal-callout">
+            <p>
+              <strong>Practice Disclosure:</strong> Anavind Labs is a self-employed independent research practice operated by Aravind Sundaresan since November 2023. It is not an incorporated company or an LLP.
+            </p>
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Research</h4>
+          <ul class="footer-links-list">
+            <li><a href="research.html#clairvoyant">Clairvoyant (SJF)</a></li>
+            <li><a href="research.html#kube-sentinel">Kube-Sentinel (K8s)</a></li>
+            <li><a href="research.html#aether-control">Aether Control (vLLM)</a></li>
+            <li><a href="research.html#heterodisagg">HeteroDisagg (FP8)</a></li>
+            <li><a href="research.html#multi-node-lab">Multi-Node Lab (CUDA)</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html">Systems Stack</a></li>
+            <li><a href="upstream.html">Upstream Contributions</a></li>
+            <li><a href="benchmarks.html">Provenance & Testbeds</a></li>
+            <li><a href="about.html">About & Career</a></li>
+            <li><a href="https://github.com/Aravind0403" target="_blank" rel="noopener noreferrer">GitHub Profile</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2023–2026 Aravind Sundaresan &middot; Anavind Labs</span>
+        <span>Every number carries its provenance.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
