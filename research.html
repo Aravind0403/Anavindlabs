@@ -187,11 +187,11 @@
                 Kube-Sentinel: Native Kubernetes GPU Scheduler Plugin (V2)
               </h2>
               <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--measured); margin-bottom: 16px;">
-                github.com/Aravind0403/Kube-Sentinel &middot; Stack Layer: Cluster / GPU Scheduling (L2) &middot; Builds on ACO Research Core
+                github.com/Aravind0403/Kube-Sentinel &middot; Stack Layer: Cluster / GPU Scheduling (L2)
               </p>
 
               <p class="card-mechanism">
-                Kube-Sentinel is an in-tree scheduler plugin compiled directly against Kubernetes Scheduler Framework extension points in Go (<code class="mono">PreScore</code>, <code class="mono">Score</code>, <code class="mono">Reserve</code>, <code class="mono">Unreserve</code>, <code class="mono">PreBind</code>, <code class="mono">PostBind</code>). It builds upon the ACO (Ant Colony Optimization) research core and couples with a high-throughput Python gRPC telemetry daemon running on GPU worker nodes. The scheduler evaluates node health across 4 trust dimensions (internal metric consistency, heartbeat freshness, jitter, and cross-scheduler state coherence) and incorporates a Go circuit breaker to failover gracefully if telemetry drops.
+                Kube-Sentinel is an enterprise-grade, high-throughput Kubernetes custom scheduler designed for heterogeneous cloud and GPU clusters. It decouples high-speed scheduling execution (a native Go plugin implementing the Kubernetes Scheduling Framework) from mathematical telemetry verification (a Python daemon communicating over a sub-millisecond loopback gRPC channel).
               </p>
 
               <!-- Measured vs Modeled Callout -->
